@@ -4,18 +4,12 @@ import string
 import re
 import spacy
 import time
-import subprocess
-
-@st.cache_resource
-def download_en_core_web_sm():
-    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
 
 @st.cache_resource(ttl=3600)
 def load_model():
     learn_inf = joblib.load('checkpoints/spam_detection_model.pkl')
     vectorizer = joblib.load('checkpoints/count_vectorizer.pkl')
     return learn_inf,vectorizer
-
 
 def clean_text(s): 
     for cs in s:
@@ -46,34 +40,38 @@ def classify_email(model,vectorizer,email):
 def main():
     st.title("Spam Email Detector")
     output = st.empty()
+    status_bar = st.empty()
 
     with st.spinner('Loading the webpage...'):
-        user_input = st.text_area('Enter the email text:', '')
+        user_input = st.text_area('Enter the email text:', '',placeholder='Congratulations!! You have won Rs. 100000. \nClick here to Redeem!!')
     
     if st.button("Check for Spam"):
         output.empty()
+        status_bar.empty()
+        
         if user_input:
             with st.status("Loading the model.....", expanded=True) as status:
                 model,vectorizer = load_model()
                 time.sleep(2)
 
-                st.write("Analyzing the email.....")
+                status.update(label="Analyzing the email.....!", state="running", expanded=True)
                 user_input = preprocess(user_input)
                 time.sleep(2)
 
-                st.write("Checking for Spam.....")
+                status.update(label="Checking for Spam.....", state="running", expanded=True)
                 prediction = classify_email(model,vectorizer,user_input)
                 time.sleep(2)
 
                 status.update(label="Detection Completed!", state="complete", expanded=False)
 
 
+            status_bar.empty()
             if prediction == 1:
-                output.error('Spam Detected!')
+                output.error('Spam Detected!',icon="🚨")
             else:
-                output.success('Not Spam.')
+                output.success('Not Spam.',icon="✅")
         else:
-            output.warning("Kindly enter the text to detect !!")
+            output.warning("Kindly enter the text to detect !!",icon="⚠️")
 
 if __name__ == "__main__":
     # download_en_core_web_sm()
