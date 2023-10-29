@@ -5,6 +5,8 @@ import re
 import spacy
 import time
 
+st.set_page_config(page_title="Spam Email Detector",page_icon="✉️")
+
 @st.cache_resource(ttl=3600)
 def load_model():
     learn_inf = joblib.load('checkpoints/spam_detection_model.pkl')
@@ -40,7 +42,6 @@ def classify_email(model,vectorizer,email):
 
 def main():
     st.title("Spam Email Detector")
-    st.set_page_config(page_title="Spam Email Detector",page_icon="✉️")
     output = st.empty()
     status_bar = st.empty()
 
