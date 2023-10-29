@@ -40,6 +40,7 @@ def classify_email(model,vectorizer,email):
 
 def main():
     st.title("Spam Email Detector")
+    st.set_page_config(page_title="Spam Email Detector",page_icon="✉️")
     output = st.empty()
     status_bar = st.empty()
 
