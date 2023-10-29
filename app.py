@@ -76,4 +76,5 @@ def main():
             output.warning("Kindly enter the text to detect !!")
 
 if __name__ == "__main__":
+    download_en_core_web_sm()
     main()
