@@ -11,6 +11,7 @@ def load_model():
     vectorizer = joblib.load('checkpoints/count_vectorizer.pkl')
     return learn_inf,vectorizer
 
+
 def clean_text(s): 
     for cs in s:
         if  not cs in string.ascii_letters:
@@ -48,16 +49,17 @@ def main():
     if st.button("Check for Spam"):
         output.empty()
         status_bar.empty()
-        
         if user_input:
-            with st.status("Loading the model.....", expanded=True) as status:
+            with status_bar.status("Loading the model.....", expanded=True) as status:
                 model,vectorizer = load_model()
                 time.sleep(2)
 
+                # st.write("Analyzing the email.....")
                 status.update(label="Analyzing the email.....!", state="running", expanded=True)
                 user_input = preprocess(user_input)
                 time.sleep(2)
 
+                # st.write("Checking for Spam.....")
                 status.update(label="Checking for Spam.....", state="running", expanded=True)
                 prediction = classify_email(model,vectorizer,user_input)
                 time.sleep(2)
@@ -67,12 +69,11 @@ def main():
 
             status_bar.empty()
             if prediction == 1:
-                output.error('Spam Detected!',icon="🚨")
+                output.error('Spam Detected!')
             else:
-                output.success('Not Spam.',icon="✅")
+                output.success('Not Spam')
         else:
-            output.warning("Kindly enter the text to detect !!",icon="⚠️")
+            output.warning("Kindly enter the text to detect !!")
 
 if __name__ == "__main__":
-    # download_en_core_web_sm()
     main()
