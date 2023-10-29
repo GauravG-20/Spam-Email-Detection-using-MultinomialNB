@@ -4,8 +4,13 @@ import string
 import re
 import spacy
 import time
+import subprocess
 
-# @st.cache_resource(ttl=3600)
+@st.cache_resource
+def download_en_core_web_sm():
+    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+
+@st.cache_resource(ttl=3600)
 def load_model():
     learn_inf = joblib.load('checkpoints/spam_detection_model.pkl')
     vectorizer = joblib.load('checkpoints/count_vectorizer.pkl')
