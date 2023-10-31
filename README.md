@@ -4,6 +4,12 @@
 
 This project implements a spam email classifier using the Multinomial Naive Bayes algorithm. The classifier analyzes email subjects to differentiate between spam and ham (non-spam) messages. By leveraging the CountVectorizer for text processing and Multinomial Naive Bayes for classification, this project offers an efficient solution for email filtering.
 
+## Deployed App
+
+I have deployed the Spam Email Detector App, and it is accessible via the following link: [Spam Email Detector](https://spam-email-detection-xkfbkgmxafoxvaaprmxlnr.streamlit.app/).
+
+<img src="https://github.com/GauravG-20/Spam-Email-Detection-using-MultinomialNB/blob/main/app_preview.png">
+
 ## How it Works
 
 1. **Text Processing:**
